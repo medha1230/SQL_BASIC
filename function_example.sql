@@ -20,3 +20,10 @@ dbms_output.put_line('something went wrong');
 end if;
 end;
 /
+declare
+v_name number;
+begin 
+v_name :=sf_get_emp_id_by_deptid(0);
+dbms_output.put_line(v_name);
+end;
+/

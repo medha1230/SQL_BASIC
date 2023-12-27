@@ -1,0 +1,27 @@
+create or replace package pkg_details_medha
+IS
+      type v_asso is table of number;
+function medha2(p_department_id departments.department_id%type)
+return v_asso;
+end;
+create or replace package body pkg_details_medha IS 
+  function medha2(p_department_id departments.department_id%type)
+return v_asso
+IS
+    v_id v_asso;
+Begin
+select employee_id bulk collect into v_id  from employees where department_id=p_department_id;
+FORALL i in v_id.first..v_id.last 
+    update employees set salary =salary*2.2 where employee_id=v_id(i);
+return v_id;
+end;
+end;
+declare
+v_id pkg_details_medha.v_asso;
+begin
+v_id:=pkg_details_medha.medha2(90);
+for i in v_id.first .. v_id.last
+loop
+dbms_output.put_line(v_id(i));
+end loop;
+end;
